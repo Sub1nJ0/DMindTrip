@@ -1,7 +1,12 @@
 package com.example.dmindtrip
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-data class DiaryData(var year:String, var month:String, var day:String, var title:String="", var Content:String=""): Serializable{
+@Parcelize
+
+data class DiaryData(var year:String, var month:String,
+                     var day:String, var title:String="",
+                     var Content:String="", var frequency:Int=0): Parcelable {
 
 }

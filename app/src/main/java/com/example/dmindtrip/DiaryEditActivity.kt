@@ -24,6 +24,8 @@ class DiaryEditActivity : AppCompatActivity() {
                 val afterdata = beforedata.copy(year.text.toString(),month.text.toString(),
                     day.text.toString(), diaryTitle.text.toString(), diaryText.text.toString())
             }
+            println("data")
+            println(editdata)
             finish()
         }
 
