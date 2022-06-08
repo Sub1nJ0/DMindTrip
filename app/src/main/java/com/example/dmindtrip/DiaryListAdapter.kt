@@ -7,7 +7,7 @@ import com.example.dmindtrip.databinding.RowDiaryBinding
 
 class DiaryListAdapter(val diarylists: ArrayList<DiaryData>): RecyclerView.Adapter<DiaryListAdapter.ViewHolder>() {
     interface OnItemClickListener {
-        fun onItemClick(data: DiaryData)
+        fun onItemClick(data: DiaryData, position: Int)
     }
 
     var itemClickListener:OnItemClickListener?= null
@@ -15,7 +15,7 @@ class DiaryListAdapter(val diarylists: ArrayList<DiaryData>): RecyclerView.Adapt
     inner class ViewHolder(val binding: RowDiaryBinding): RecyclerView.ViewHolder(binding.root){
         init {
             binding.diaryItem.setOnClickListener {
-                itemClickListener?.onItemClick(diarylists[adapterPosition])
+                itemClickListener?.onItemClick(diarylists[adapterPosition], adapterPosition)
             }
         }
     }
