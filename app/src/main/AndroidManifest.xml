@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DMindTrip">
         <activity
+            android:name=".DiaryEditActivity"
+            android:exported="false" />
+        <activity
             android:name=".DiaryWriteActivity"
             android:exported="false" />
         <activity
