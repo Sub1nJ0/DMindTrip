@@ -31,8 +31,8 @@ class DiaryFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentDiaryBinding.inflate(inflater,container,false)
-        diaryData.add(DiaryData(2022,6,7,"모바일프로그래밍","TEST"))
-        diaryData.add(DiaryData(2022, 6,4,"웹","test2"))
+        diaryData.add(DiaryData("2022","6","7","모바일프로그래밍","TEST"))
+        diaryData.add(DiaryData("2022", "6","4","웹","test2"))
         adapter = DiaryListAdapter(diaryData)
 
         //edit diary
@@ -44,8 +44,7 @@ class DiaryFragment : Fragment() {
 
         //write new diary
         binding.writebtn.setOnClickListener {
-            showDatePickerDialog()
-            println("Date:"+ selectedday)
+            gotoWrite()
         }
         layoutManager = LinearLayoutManager(this.context)
         binding.diaryRecyclerview.layoutManager = layoutManager
@@ -60,22 +59,9 @@ class DiaryFragment : Fragment() {
         startActivity(intent)
     }
 
-    private fun showDatePickerDialog(){
-        val cal = Calendar.getInstance()
-        var datePicker = DatePickerDialog(
-            this.requireContext(), object : DatePickerDialog.OnDateSetListener {
-                override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-                    println(year)
-                }
-            },cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
-            cal.get(Calendar.DAY_OF_MONTH))
-        /*datePicker.setButton(
-            DialogInterface.BUTTON_POSITIVE,"확인", DialogInterface.OnClickListener
-        { diag, i -> gotoWrite(selectedyear, selectedmonth, selectedday) })
-        datePicker.setButton(
-            DialogInterface.BUTTON_NEGATIVE,"취소", DialogInterface.OnClickListener
-        { diag, i ->  datePicker.dismiss()})*/
-        datePicker.show()
+    private fun gotoWrite(){
+        val intent = Intent(this.context, DiaryWriteActivity::class.java)
+        startActivity(intent)
     }
 
 
