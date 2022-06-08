@@ -6,7 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dmindtrip.databinding.FragmentDiaryBinding
@@ -17,10 +20,8 @@ class DiaryFragment : Fragment() {
     lateinit var binding: FragmentDiaryBinding
     lateinit var adapter: DiaryListAdapter
     lateinit var layoutManager: RecyclerView.LayoutManager
+    val spinnerItems = arrayOf("1","2","3","4","5","6","7","8","9","10","11","12")
     val diaryData:ArrayList<DiaryData> = ArrayList()
-    var selectedyear:Int = 0
-    var selectedmonth:Int = 0
-    var selectedday:Int = 0
 
 
     override fun onCreateView(
@@ -39,6 +40,10 @@ class DiaryFragment : Fragment() {
                 gotoEdit(position)
             }
         }
+
+        //spinner
+        val adapter2 = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, spinnerItems)
+        binding.spinnerDate.adapter = adapter2
 
         //write new diary
         binding.writebtn.setOnClickListener {
