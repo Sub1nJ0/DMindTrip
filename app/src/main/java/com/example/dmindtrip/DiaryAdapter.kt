@@ -1,5 +1,6 @@
 package com.example.dmindtrip
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,17 +9,17 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 
 class DiaryAdapter(options: FirebaseRecyclerOptions<DiaryData>):
-FirebaseRecyclerAdapter<DiaryData, DiaryAdapter.ViewHolder>(options)  {
+    FirebaseRecyclerAdapter<DiaryData, DiaryAdapter.ViewHolder>(options)  {
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int, titlekey: String)
     }
 
     var itemClickListener:OnItemClickListener?= null
-    inner class ViewHolder(val binding:RowDiaryBinding): RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(val binding: RowDiaryBinding): RecyclerView.ViewHolder(binding.root){
         init {
-            binding.diaryItem.setOnClickListener {
-                itemClickListener!!.onItemClick(bindingAdapterPosition)
+            binding.root.setOnClickListener {
+                itemClickListener!!.onItemClick(bindingAdapterPosition, binding.diaryTitle.toString())
             }
         }
     }
@@ -32,6 +33,7 @@ FirebaseRecyclerAdapter<DiaryData, DiaryAdapter.ViewHolder>(options)  {
         holder.binding.apply {
             diaryDate.text = model.month.toString() + "/"+ model.day.toString()
             diaryTitle.text = model.title
+            Log.i("TAG", model.toString())
         }
 
     }

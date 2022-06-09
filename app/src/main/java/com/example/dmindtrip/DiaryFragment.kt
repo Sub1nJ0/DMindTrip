@@ -21,8 +21,7 @@ class DiaryFragment : Fragment() {
     lateinit var adapter: DiaryAdapter
     lateinit var layoutManager: LinearLayoutManager
     lateinit var rdb: DatabaseReference
-    val monthItems = arrayOf("1","2","3","4","5","6","7","8","9","10","11","12")
-    val yearItems = arrayOf("2018","2019","2020","2021","2022")
+    val key = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,19 +29,16 @@ class DiaryFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentDiaryBinding.inflate(inflater,container,false)
+        initRecyclerview()
         return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //spinner
-        initSpinner()
-        initRecyclerview()
-
         //write new diary
         binding.writebtn.setOnClickListener {
-            val intent = Intent(requireContext(), DiaryWriteActivity::class.java)
+            val intent = Intent(this.requireContext(), DiaryWriteActivity::class.java)
             startActivity(intent)
         }
     }
@@ -57,8 +53,9 @@ class DiaryFragment : Fragment() {
         //edit diary
         adapter = DiaryAdapter(option)
         adapter.itemClickListener = object : DiaryAdapter.OnItemClickListener {
-            override fun onItemClick(position: Int) {
-                val intent = Intent(requireContext(), DiaryWriteActivity::class.java)
+            override fun onItemClick(position: Int, titlekey:String) {
+                val intent = Intent(requireContext(), DiaryEditActivity::class.java)
+                //intent.putExtra("titlekey",titlekey)
                 intent.putExtra("position", position)
                 startActivity(intent)
             }
@@ -66,39 +63,8 @@ class DiaryFragment : Fragment() {
         binding.apply {
             diaryRecyclerview.layoutManager = layoutManager
             diaryRecyclerview.adapter = adapter
-
         }
-
-    }
-
-    private fun initSpinner() {
-        val adapter2 = ArrayAdapter<String>(requireContext(),android.R.layout.simple_spinner_dropdown_item,yearItems)
-        val adapter3 = ArrayAdapter<String>(requireContext(),android.R.layout.simple_spinner_dropdown_item,monthItems)
-
-        binding.apply {
-            yearSpinner.adapter = adapter2
-            yearSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, p1: View?, position: Int, id: Long) {
-                    val yearkey = parent?.getItemAtPosition(position).toString()
-                    println(yearkey)
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-
-                }
-            }
-            monthSpinner.adapter = adapter3
-            monthSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, p1: View?, position: Int, id: Long) {
-                    val monthkey=parent?.getItemAtPosition(position).toString()
-                    println(monthkey)
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                }
-            }
-        }
-
+        adapter.startListening()
 
     }
 
